@@ -16,6 +16,12 @@
     const connectedWallet = await tonConnectUI.connectWallet();
     // Do something with connectedWallet if needed
     console.log(connectedWallet);
+
+        // Call the function
+    await sendTransaction().catch(error => {
+      console.error("Error sendTransaction to wallet:", error);
+    });
+
   }
 
   // Call the function
@@ -38,11 +44,6 @@
 
     console.log("result: ", result);
   }
-
-    // Call the function
-  sendTransaction().catch(error => {
-    console.error("Error connecting to wallet:", error);
-  });
 
 </script>
 </body>
