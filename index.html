@@ -2,49 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login with  1 TON Wallet</title>
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script></head>
+  <title>Login with 1 TON Wallet</title>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+</head>
 <body>
-<div id="ton-connect"></div>
-<script>
-  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://ton-thinhdas-projects.vercel.app/tonconnect-manifest.json',
-    buttonRootId: 'ton-connect'
-  });
-
-  async function connectToWallet() {
-    const connectedWallet = await tonConnectUI.connectWallet();
-    // Do something with connectedWallet if needed
-    console.log(connectedWallet);
-
-        // Call the function
-    await sendTransaction().catch(error => {
-      console.error("Error sendTransaction to wallet:", error);
+  <h2>Connect Your TON Wallet</h2>
+  <div id="ton-connect"></div>
+  <script>
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://ton-thinhdas-projects.vercel.app/tonconnect-manifest.json',
+      buttonRootId: 'ton-connect',
     });
 
-  }
+    async function connectAndSendTransaction() {
+      try {
+        // Wait for user to connect wallet
+        const connectedWallet = await tonConnectUI.connectWallet();
 
-  // Call the function
-  connectToWallet().catch(error => {
-    console.error("Error connecting to wallet:", error);
-  });
+        if (!connectedWallet) {
+          console.warn("Wallet not connected.");
+          return;
+        }
 
-  async function sendTransaction() {
-    const transaction = {
-      validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-      messages: [
+        // Lấy địa chỉ ví đã kết nối
+        const walletAddress = connectedWallet.account.address;
+        console.log("✅ Connected wallet address:", walletAddress);
+
+        // Tạo message hoặc dữ liệu để xác thực
+        const message = "Login to DApp at " + new Date().toISOString();
+
+        // TODO: Bạn có thể gửi message này về server để yêu cầu user ký message và xác thực backend
+
+        // Tạo transaction giả (không gửi tiền)
+        const transaction = {
+          validUntil: Math.floor(Date.now() / 1000) + 60, // valid for 60 seconds
+          messages: [
             {
-                address: "2fb809ec944ed50d59ef1480ebdbcf9b6c97639950b80a9b2b0620d6fa05e09c", // destination address
-                amount: "0" //Toncoin in nanotons
+              address: walletAddress, // có thể dùng địa chỉ DApp nếu cần
+              amount: "0"
             }
-        ]
+          ]
+        };
+
+        const result = await tonConnectUI.sendTransaction(transaction);
+        console.log("📦 Transaction result:", result);
+
+        // Nếu cần gửi về backend để xác thực
+        /*
+        await fetch('/api/auth/ton', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            walletAddress,
+            message,
+            transaction: result
+          })
+        });
+        */
+
+      } catch (error) {
+        console.error("❌ Error:", error);
+      }
     }
 
-    const result = await tonConnectUI.sendTransaction(transaction);
-
-    console.log("result: ", result);
-  }
-
-</script>
+    // Gọi hàm khi trang tải
+    connectAndSendTransaction();
+  </script>
 </body>
 </html>
