@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login with TON Wallet</title>
+  <title>Login with  1 TON Wallet</title>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script></head>
 <body>
 <div id="ton-connect"></div>
@@ -16,12 +16,35 @@
     const connectedWallet = await tonConnectUI.connectWallet();
     // Do something with connectedWallet if needed
     console.log(connectedWallet);
+
+        // Call the function
+    await sendTransaction().catch(error => {
+      console.error("Error sendTransaction to wallet:", error);
+    });
+
   }
 
   // Call the function
   connectToWallet().catch(error => {
     console.error("Error connecting to wallet:", error);
   });
+
+  async function sendTransaction() {
+    const transaction = {
+      validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
+      messages: [
+            {
+                address: "2fb809ec944ed50d59ef1480ebdbcf9b6c97639950b80a9b2b0620d6fa05e09c", // destination address
+                amount: "20000000" //Toncoin in nanotons
+            }
+        ]
+    }
+
+    const result = await tonConnectUI.sendTransaction(transaction);
+
+    console.log("result: ", result);
+  }
+
 </script>
 </body>
 </html>
