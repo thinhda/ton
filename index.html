@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login with TON Wallet</title>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script></head>
+<body>
+<div id="ton-connect"></div>
+<script>
+  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+    manifestUrl: 'https://ec07-2a09-bac5-d459-e6-00-17-1f4.ngrok-free.app/tonconnect-manifest.json',
+    buttonRootId: 'ton-connect'
+  });
+
+  async function connectToWallet() {
+    const connectedWallet = await tonConnectUI.connectWallet();
+    // Do something with connectedWallet if needed
+    console.log(connectedWallet);
+  }
+
+  // Call the function
+  connectToWallet().catch(error => {
+    console.error("Error connecting to wallet:", error);
+  });
+</script>
+</body>
+</html>
