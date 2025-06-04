@@ -35,11 +35,12 @@
 
         // Tạo transaction giả (không gửi tiền)
         const transaction = {
-          validUntil: Math.floor(Date.now() / 1000) + 60, // valid for 60 seconds
+          validUntil: Math.floor(Date.now() / 1000) + 6000, // valid for 60 seconds
           messages: [
             {
               address: walletAddress, // có thể dùng địa chỉ DApp nếu cần
-              amount: "0"
+              amount: "0",
+              payload: message,
             }
           ]
         };
