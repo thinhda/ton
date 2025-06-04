@@ -1,7 +1,7 @@
 {
-  "url": "http://localhost:3000",
+  "url": "https://ton-thinhdas-projects.vercel.app",
   "name": "TON Wallet Login Demo",
-  "iconUrl": "http://localhost:3000/icon.png",
-  "termsOfUseUrl": "http://localhost:3000/terms",
-  "privacyPolicyUrl": "http://localhost:3000/privacy"
+  "iconUrl": "https://ton-thinhdas-projects.vercel.app/icon.png",
+  "termsOfUseUrl": "https://ton-thinhdas-projects.vercel.app/terms",
+  "privacyPolicyUrl": "https://ton-thinhdas-projects.vercel.app/privacy"
 }
