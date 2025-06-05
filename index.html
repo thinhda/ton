@@ -17,7 +17,12 @@
     async function connectAndSendTransaction() {
       try {
         // Wait for user to connect wallet
-        const connectedWallet = await tonConnectUI.connectWallet();
+        const connectedWallet = await tonConnectUI.connectWallet({
+                tonProof: {
+        // IMPORTANT: Always use your domain
+          payload: 'login:' + new Date().toISOString(), // this should be unique per login
+        },
+        });
 
         if (!connectedWallet) {
           console.warn("Wallet not connected.");
